@@ -6,7 +6,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #efe8d8;
+  background: #f0c9a3;
 }
 
 .scene {
@@ -20,8 +20,20 @@ html, body {
   padding: 12px;
 }
 
+.bg-art {
+  position: absolute;
+  inset: 0;
+  background-image: url(../assets/background.webp);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .stage {
   position: relative;
+  z-index: 1;
   width: min(480px, 96vw, calc(92vh * 0.70939));
   aspect-ratio: 930 / 1311;
   box-shadow: 0 24px 60px rgba(74, 58, 34, 0.25);
@@ -50,22 +62,22 @@ html, body {
 
 .flap-left {
   left: 0;
-  transform-origin: left center;
+  transform-origin: right center;
   background-position: left top;
 }
 
 .flap-right {
   right: 0;
-  transform-origin: right center;
+  transform-origin: left center;
   background-position: right top;
 }
 
 .envelope.open .flap-left {
-  transform: rotateY(-112deg);
+  transform: rotateY(112deg);
 }
 
 .envelope.open .flap-right {
-  transform: rotateY(112deg);
+  transform: rotateY(-112deg);
 }
 
 .open-btn {
