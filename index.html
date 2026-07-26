@@ -30,30 +30,67 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/montserrat-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="fechado">
 
-<div class="scene">
-  <div class="bg-art" aria-hidden="true"></div>
+<div class="bg-art" aria-hidden="true"></div>
+
+<!-- ---------- Envelope fechado ---------- -->
+<section class="cover" id="envelope">
   <div class="stage">
-
-    <section class="envelope" id="envelope">
-      <div class="flap flap-left" aria-hidden="true"></div>
-      <div class="flap flap-right" aria-hidden="true"></div>
-      <button class="open-btn" id="sealBtn" type="button" aria-label="Clique para abrir o convite"></button>
-    </section>
-
-    <section class="invitation" id="invitation" aria-hidden="true">
-      <div class="card">
-        <img src="assets/convite.svg" alt="Convite de casamento de Ana Carolina e Luan, 10 de outubro de 2026, Londrina/PR">
-        <a class="hotspot hotspot-rsvp" href="https://biolink.website/anaeluan" target="_blank" rel="noopener" aria-label="Confirmar presença e ver lista de presentes"></a>
-        <a class="hotspot hotspot-calendar" id="calendarBtn" href="assets/casamento-ana-e-luan.ics" target="_blank" rel="noopener" aria-label="Adicionar ao calendário"></a>
-      </div>
-    </section>
-
+    <div class="flap flap-left" aria-hidden="true"></div>
+    <div class="flap flap-right" aria-hidden="true"></div>
+    <button class="open-btn" id="sealBtn" type="button" aria-label="Clique para abrir o convite"></button>
   </div>
-</div>
+</section>
+
+<!-- ---------- Convite ---------- -->
+<main class="invitation" id="invitation" aria-hidden="true">
+  <div class="card-wrap">
+  <article class="card">
+    <img class="canto canto-se" src="assets/canto.webp" alt="" aria-hidden="true">
+    <img class="canto canto-sd" src="assets/canto.webp" alt="" aria-hidden="true">
+    <img class="canto canto-id" src="assets/canto.webp" alt="" aria-hidden="true">
+    <img class="canto canto-ie" src="assets/canto.webp" alt="" aria-hidden="true">
+
+    <p class="bencao">Com a bênção de Deus e de seus pais</p>
+
+    <div class="pais">
+      <p>Antonio Carlos Rosseto<br>Cristina Rosseto</p>
+      <img class="monograma" src="assets/monograma.webp" alt="" aria-hidden="true">
+      <p>Aroldo Carlos de Araujo<br>Rosana de Araujo</p>
+    </div>
+
+    <h1 class="nomes"><img src="assets/nomes.svg" alt="Ana Carolina e Luan"></h1>
+
+    <img class="divisor divisor-1" src="assets/divisor-1.svg" alt="" aria-hidden="true">
+
+    <p class="corpo">Convidam para a celebração de seu casamento,</p>
+    <p class="corpo">a realizar-se no sábado, dia 10 de outubro de 2026, às 16h30,</p>
+    <p class="corpo">na Xákara Eventos, Estrada dos Periquitos, 153.</p>
+
+    <img class="divisor divisor-2" src="assets/divisor-2.svg" alt="" aria-hidden="true">
+    <p class="cidade">Londrina/PR</p>
+    <img class="divisor divisor-3" src="assets/divisor-3.svg" alt="" aria-hidden="true">
+
+    <p class="aviso">Confirmação de presença até <strong>10.09</strong> pelo site dos noivos</p>
+    <p class="site"><a href="https://www.anaeluan.com.br" target="_blank" rel="noopener">www.anaeluan.com.br</a></p>
+
+    <div class="acoes">
+      <a class="btn" href="https://biolink.website/anaeluan" target="_blank" rel="noopener">
+        <i class="ico ico-coracao" aria-hidden="true"></i>
+        <span>Confirmar presença &amp; lista de presentes</span>
+      </a>
+      <a class="btn" href="assets/casamento-ana-e-luan.ics" target="_blank" rel="noopener">
+        <i class="ico ico-calendario" aria-hidden="true"></i>
+        <span>Adicionar ao calendário</span>
+      </a>
+    </div>
+  </article>
+  </div>
+</main>
 
 <script src="js/script.js"></script>
 </body>
