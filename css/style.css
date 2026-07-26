@@ -6,7 +6,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #efe8d8;
+  background: #f2e6d3;
 }
 
 .scene {
@@ -20,8 +20,24 @@ html, body {
   padding: 12px;
 }
 
+.bg-art {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(900px, 145vw);
+  aspect-ratio: 1200 / 877;
+  background-image: url(../assets/envelope-liner.webp);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .stage {
   position: relative;
+  z-index: 1;
   width: min(480px, 96vw, calc(92vh * 0.70939));
   aspect-ratio: 930 / 1311;
   box-shadow: 0 24px 60px rgba(74, 58, 34, 0.25);
