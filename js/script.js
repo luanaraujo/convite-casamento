@@ -1,16 +1,19 @@
 (function () {
-  var envelope = document.getElementById('envelope');
+  var cover = document.getElementById('envelope');
   var sealBtn = document.getElementById('sealBtn');
   var invitation = document.getElementById('invitation');
 
   function openEnvelope() {
-    if (envelope.classList.contains('open')) return;
-    envelope.classList.add('open');
+    if (cover.classList.contains('open')) return;
+    cover.classList.add('open');
     invitation.classList.add('show');
     invitation.setAttribute('aria-hidden', 'false');
+
     // aba esquerda 1.15s + aba direita com 0.5s de atraso = 1.65s no total
     setTimeout(function () {
-      envelope.style.display = 'none';
+      cover.style.display = 'none';
+      // libera a rolagem só depois que o envelope sai de cena
+      document.body.classList.remove('fechado');
     }, 1800);
   }
 
@@ -21,15 +24,4 @@
       openEnvelope();
     }
   });
-
-  var calendarBtn = document.getElementById('calendarBtn');
-  if (calendarBtn && /Android/i.test(navigator.userAgent)) {
-    var gcalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-      + '&text=' + encodeURIComponent('Casamento de Ana Carolina e Luan')
-      + '&dates=20261010T163000/20261011T020000'
-      + '&ctz=' + encodeURIComponent('America/Sao_Paulo')
-      + '&details=' + encodeURIComponent('Casamento de Ana Carolina e Luan')
-      + '&location=' + encodeURIComponent('Xákara Eventos, Estrada dos Periquitos, 153 - Londrina/PR');
-    calendarBtn.setAttribute('href', gcalUrl);
-  }
 })();

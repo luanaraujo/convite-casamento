@@ -1,27 +1,68 @@
+/* =========================================================================
+   Convite Ana Carolina & Luan
+
+   O texto do convite era parte da imagem SVG. Num celular o cartão já ocupa
+   a largura toda, então o texto ficava em ~7px e não havia como aumentar sem
+   quebrar as linhas. Aqui o texto é HTML de verdade: no desktop o tamanho é
+   proporcional à largura do cartão (fiel ao original do Canva) e no celular
+   um piso em px assume, o texto cresce e as linhas quebram sozinhas.
+
+   Os ornamentos (moldura, monograma, nomes em script, divisores, ícones)
+   foram extraídos do próprio convite.svg, que segue no repositório como
+   referência.
+
+   Fonte: o original usa Gotham (comercial). Aqui vai Montserrat, a
+   substituta livre mais próxima — escolhida comparando o contorno das letras
+   do arquivo original.
+   ========================================================================= */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../assets/fonts/montserrat-400-latin.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../assets/fonts/montserrat-600-latin.woff2) format('woff2');
+}
+
+:root {
+  --texto: #634b1e;
+  --script: #897354;
+  --papel: #fdf7ea;
+  --botao-texto: #653813;
+  --botao-borda: #897354;
+}
+
 * {
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #f0c9a3;
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
-.scene {
-  position: relative;
-  width: 100%;
+body {
+  margin: 0;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #f0c9a3;
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Enquanto o envelope está fechado a página não rola. O JS tira esta classe
+   ao abrir, liberando a rolagem do convite. */
+body.fechado {
   overflow: hidden;
-  padding: 12px;
 }
 
 .bg-art {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-image: url(../assets/background.webp);
   background-size: cover;
@@ -31,21 +72,24 @@ html, body {
   pointer-events: none;
 }
 
-.stage {
-  position: relative;
-  z-index: 1;
-  width: min(480px, 96vw, calc(92vh * 0.70939));
-  aspect-ratio: 930 / 1311;
-  box-shadow: 0 24px 60px rgba(74, 58, 34, 0.25);
-}
+/* ---------- Envelope fechado ---------- */
 
-/* ---------- Envelope (cover) ---------- */
-
-.envelope {
-  position: absolute;
+.cover {
+  position: fixed;
   inset: 0;
   z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.stage {
+  position: relative;
+  width: min(480px, 96vw, calc(92vh * 0.70939));
+  aspect-ratio: 930 / 1311;
   perspective: 2000px;
+  box-shadow: 0 24px 60px rgba(74, 58, 34, 0.25);
 }
 
 /* A dobra da arte fica em 64.19% da largura — exatamente onde está o selo. */
@@ -76,11 +120,11 @@ html, body {
   background-size: 279.25% 100%;
 }
 
-.envelope.open .flap-left {
+.cover.open .flap-left {
   transform: rotateY(-115deg);
 }
 
-.envelope.open .flap-right {
+.cover.open .flap-right {
   transform: rotateY(115deg);
   transition-delay: .5s;
 }
@@ -88,8 +132,6 @@ html, body {
 .open-btn {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   background: none;
   border: none;
   padding: 0;
@@ -99,17 +141,17 @@ html, body {
   transition: opacity .4s ease;
 }
 
-.envelope.open .open-btn {
+.cover.open .open-btn {
   opacity: 0;
   pointer-events: none;
 }
 
-/* ---------- Invitation ---------- */
+/* ---------- Convite ---------- */
 
 .invitation {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 5;
+  padding: 5vh 8px;
   opacity: 0;
   transform: translateY(24px) scale(.98);
   transition: opacity 1s ease .1s, transform 1s ease .1s;
@@ -122,44 +164,250 @@ html, body {
   pointer-events: auto;
 }
 
+/* O container fica no wrapper, não no próprio cartão: unidades cqw não podem
+   consultar o elemento que declara o container, só um ancestral. */
+.card-wrap {
+  container-type: inline-size;
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
 .card {
   position: relative;
   width: 100%;
-  height: 100%;
+  background: var(--papel);
+  color: var(--texto);
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(74, 58, 34, 0.25);
+
+  /* No original o conteúdo começa a 11.9% da largura do cartão. */
+  padding: 10.83cqw 8.6cqw 9.2cqw;
+
+  /* Escala tipográfica: proporcional à largura (como no Canva) até bater no
+     piso de 15px, que é onde o celular passa a mandar. Os múltiplos abaixo
+     são as proporções medidas no convite original. */
+  --fs: max(15px, 2.043cqw);
+  font-size: var(--fs);
+  line-height: 1.6;
 }
 
-.card img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.hotspot {
+/* Moldura: os quatro cantos são a MESMA imagem, espelhada. As linhas dela
+   esmaecem nas pontas, então a moldura continua correta em qualquer altura
+   de cartão — é assim no original também. */
+.canto {
   position: absolute;
+  width: 29.19cqw;
+  height: auto;
+  pointer-events: none;
+}
+
+.canto-se { top: 2.87cqw; left: 3.16cqw; }
+.canto-sd { top: 2.87cqw; right: 3.16cqw; transform: scaleX(-1); }
+.canto-id { bottom: 2.87cqw; right: 3.16cqw; transform: scale(-1); }
+.canto-ie { bottom: 2.87cqw; left: 3.16cqw; transform: scaleY(-1); }
+
+/* ---------- Blocos de texto ---------- */
+
+/* :where() tem especificidade zero, então as margens das classes abaixo
+   continuam valendo (com `.card p` elas eram todas anuladas). */
+.card :where(p) {
+  margin: 0;
+}
+
+.bencao,
+.pais p,
+.corpo,
+.cidade,
+.aviso,
+.site {
+  text-transform: uppercase;
+}
+
+.bencao {
+  font-size: calc(var(--fs) * 1.158);
+  letter-spacing: 0.065em;
+  margin-bottom: 2.1em;
+}
+
+/* Pais nas laterais e o monograma no meio. No original este bloco usa quase
+   toda a largura do cartão (x 55 a 872 de 930), por isso os margins negativos
+   que o tiram do padding — sem eles os nomes quebram em duas linhas. */
+.pais {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9cqw;
+  margin: 0 -2.7cqw 2.69em;
+}
+
+.pais p {
+  flex: 0 1 auto;
+  white-space: nowrap;
+  letter-spacing: 0.045em;
+  line-height: 1.38;
+}
+
+.monograma {
+  flex: 0 0 auto;
+  width: 21.86cqw;   /* 203.3 de 930 no original */
+  height: auto;
+}
+
+.nomes {
+  /* h1 vem com font-size: 2em do navegador — fixando a base para que as
+     margens em `em` valham o que se espera. */
+  font-size: var(--fs);
+  font-weight: 400;
+  margin: 0 0 2.28em;
+  line-height: 0;
+}
+
+.nomes img {
   display: block;
-  background: transparent;
+  width: 81.33cqw;   /* 756.3 de 930 */
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
 }
 
-/* Texto "WWW.ANAELUAN.COM.BR" — a arte desenha o link, mas ele não era clicável.
-   A tinta ocupa 35.46%/77.21% (29.2% x 1.2%); a área abaixo é folgada para o toque. */
-.hotspot-site {
-  left: 34.8%;
-  top: 76.2%;
-  width: 30.5%;
-  height: 4.2%;
+.divisor {
+  display: block;
+  height: auto;
+  margin: 0 auto;
 }
 
-.hotspot-rsvp {
-  left: 22.42%;
-  top: 82.68%;
-  width: 55.4%;
-  height: 4.9%;
+.divisor-1 { width: 31.58cqw; margin-bottom: 2.03em; }
+.divisor-2 { width: 24.22cqw; margin-top: 2.90em; }
+.divisor-3 { width: 24.22cqw; margin-bottom: 2.77em; }
+
+.corpo {
+  letter-spacing: 0.078em;
+  margin-bottom: 1.78em;
 }
 
-.hotspot-calendar {
-  left: 22.42%;
-  top: 88.67%;
-  width: 55.4%;
-  height: 4.8%;
+.cidade {
+  font-size: calc(var(--fs) * 1.158);
+  letter-spacing: 0.035em;
+  margin: 1.19em 0 1.24em;
+}
+
+.aviso {
+  font-size: calc(var(--fs) * 0.895);
+  letter-spacing: 0.076em;
+}
+
+.aviso strong {
+  font-weight: 600;
+}
+
+.site {
+  font-size: calc(var(--fs) * 0.947);
+  letter-spacing: 0.079em;
+  font-style: italic;
+  margin-top: 1.45em;
+}
+
+.site a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+/* ---------- Botões ---------- */
+
+.acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.14cqw;          /* 10.6 de 930 no original */
+  margin-top: 2.71em;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6cqw;
+  width: 100%;
+  max-width: 55.8cqw;    /* 519 de 930 */
+  min-height: 6.9cqw;    /* 64 de 930 */
+  padding: 0.85em 0.8em;
+  border: max(1px, 0.16cqw) solid var(--botao-borda);
+  border-radius: max(6px, 1.1cqw);
+  background: var(--papel);
+  box-shadow: 0.5cqw 0.5cqw 0 rgba(137, 115, 84, 0.28);
+  color: var(--botao-texto);
+  font-size: calc(var(--fs) * 0.835);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background .25s ease, color .25s ease, box-shadow .2s ease, transform .15s ease;
+}
+
+.btn:hover {
+  background: var(--botao-borda);
+  color: var(--papel);
+  box-shadow: 0.25cqw 0.25cqw 0 rgba(137, 115, 84, 0.28);
+  transform: translate(0.25cqw, 0.25cqw);
+}
+
+/* Os ícones vêm do convite original. Usados como máscara para que herdem a
+   cor do botão (e acompanhem o hover). */
+.ico {
+  flex: 0 0 auto;
+  background: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.ico-coracao {
+  width: 3.08cqw;    /* 28.6 de 930 */
+  aspect-ratio: 28.615 / 23.56;
+  min-width: 15px;
+  -webkit-mask-image: url(../assets/icone-coracao.svg);
+  mask-image: url(../assets/icone-coracao.svg);
+}
+
+.ico-calendario {
+  width: 2.75cqw;    /* 25.6 de 930 */
+  aspect-ratio: 25.607 / 26.4;
+  min-width: 14px;
+  -webkit-mask-image: url(../assets/icone-calendario.svg);
+  mask-image: url(../assets/icone-calendario.svg);
+}
+
+/* Em telas estreitas os nomes dos pais empilham, e o monograma vai para cima. */
+@media (max-width: 460px) {
+  .pais {
+    flex-wrap: wrap;
+    justify-content: center;
+    /* separação maior entre os dois casais do que entre as linhas de cada um,
+       para não lerem como um bloco único de quatro nomes */
+    gap: 1.15em;
+    margin-inline: 0;
+  }
+
+  .pais p {
+    white-space: normal;
+  }
+
+  .monograma {
+    order: -1;
+    width: 34cqw;
+    margin-bottom: 0.4em;
+  }
+
+  .pais p {
+    flex: 1 1 100%;
+  }
+
+  .btn {
+    max-width: 100%;
+  }
 }
