@@ -6,7 +6,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #f2e6d3;
+  background: #f0c9a3;
 }
 
 .scene {
@@ -22,15 +22,11 @@ html, body {
 
 .bg-art {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(900px, 145vw);
-  aspect-ratio: 1200 / 877;
-  background-image: url(../assets/envelope-liner.webp);
-  background-size: contain;
-  background-repeat: no-repeat;
+  inset: 0;
+  background-image: url(../assets/background.webp);
+  background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   z-index: 0;
   pointer-events: none;
 }
