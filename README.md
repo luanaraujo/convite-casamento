@@ -27,10 +27,10 @@ js/script.js     # interação de abrir o envelope + geração do texto curvo + 
 
 ## Antes de publicar
 
-- **Link de confirmação de presença / lista de presentes**: o botão está apontando
-  para `https://www.anaeluan.com.br` como placeholder. Troque pela URL real no
-  `index.html` (procure o comentário `<!-- TODO -->` perto do botão
-  "Confirmar presença & lista de presentes").
+- **Link de confirmação de presença / lista de presentes**: já aponta para
+  `https://biolink.website/anaeluan` (no botão e no texto "www.anaeluan.com.br"
+  dentro do `index.html`). Se o link mudar, procure por `biolink.website/anaeluan`
+  no arquivo.
 - **Data/local do evento**: já preenchidos em `js/script.js` (função `buildICS`),
   usados no botão "Adicionar ao calendário" (gera um arquivo `.ics` com os dados do
   casamento, compatível com Google Calendar, Apple Calendar e Outlook).
