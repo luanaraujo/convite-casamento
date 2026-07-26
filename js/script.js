@@ -2,28 +2,6 @@
   var envelope = document.getElementById('envelope');
   var sealBtn = document.getElementById('sealBtn');
   var invitation = document.getElementById('invitation');
-  var sealCaption = document.getElementById('sealCaption');
-
-  function curveCaption(container, radius, maxAngleDeg) {
-    var text = container.textContent;
-    var chars = text.split('');
-    var n = chars.length;
-    container.innerHTML = '';
-    chars.forEach(function (ch, i) {
-      var angle = n > 1 ? -maxAngleDeg + (2 * maxAngleDeg * i) / (n - 1) : 0;
-      var rad = (angle * Math.PI) / 180;
-      var x = radius * Math.sin(rad);
-      var y = radius - radius * Math.cos(rad);
-      var span = document.createElement('span');
-      span.textContent = ch === ' ' ? ' ' : ch;
-      span.style.transform = 'translateX(-50%) translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px) rotate(' + angle.toFixed(2) + 'deg)';
-      container.appendChild(span);
-    });
-  }
-
-  if (sealCaption) {
-    curveCaption(sealCaption, 90, 42);
-  }
 
   function openEnvelope() {
     if (envelope.classList.contains('open')) return;
