@@ -8,9 +8,10 @@
     envelope.classList.add('open');
     invitation.classList.add('show');
     invitation.setAttribute('aria-hidden', 'false');
+    // aba esquerda 1.15s + aba direita com 0.5s de atraso = 1.65s no total
     setTimeout(function () {
       envelope.style.display = 'none';
-    }, 1200);
+    }, 1800);
   }
 
   sealBtn.addEventListener('click', openEnvelope);

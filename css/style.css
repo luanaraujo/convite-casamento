@@ -48,36 +48,41 @@ html, body {
   perspective: 2000px;
 }
 
+/* A dobra da arte fica em 64.19% da largura — exatamente onde está o selo. */
+
 .flap {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 50%;
   background-image: url(../assets/capa.svg);
   background-repeat: no-repeat;
-  background-size: 200% 100%;
   transition: transform 1.15s cubic-bezier(.65, 0, .35, 1);
   backface-visibility: hidden;
 }
 
 .flap-left {
   left: 0;
-  transform-origin: right center;
+  width: 64.19%;
+  transform-origin: left center;
   background-position: left top;
+  background-size: 155.79% 100%;
 }
 
 .flap-right {
   right: 0;
-  transform-origin: left center;
+  width: 35.81%;
+  transform-origin: right center;
   background-position: right top;
+  background-size: 279.25% 100%;
 }
 
 .envelope.open .flap-left {
-  transform: rotateY(112deg);
+  transform: rotateY(-115deg);
 }
 
 .envelope.open .flap-right {
-  transform: rotateY(-112deg);
+  transform: rotateY(115deg);
+  transition-delay: .5s;
 }
 
 .open-btn {
