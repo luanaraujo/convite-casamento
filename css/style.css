@@ -141,6 +141,15 @@ html, body {
   background: transparent;
 }
 
+/* Texto "WWW.ANAELUAN.COM.BR" — a arte desenha o link, mas ele não era clicável.
+   A tinta ocupa 35.46%/77.21% (29.2% x 1.2%); a área abaixo é folgada para o toque. */
+.hotspot-site {
+  left: 34.8%;
+  top: 76.2%;
+  width: 30.5%;
+  height: 4.2%;
+}
+
 .hotspot-rsvp {
   left: 22.42%;
   top: 82.68%;
